@@ -37,6 +37,12 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
+
+      - name: Prepare UA2F
+        run: |
+          git clone https://github.com/Zxilly/UA2F package/UA2F
+          
+
       - name: Configure
         run: |
           cat <<EOF | sed -E 's/^  //' >.config
@@ -57,6 +63,8 @@ jobs:
             CONFIG_PACKAGE_kmod-qca-nss-drv-pppoe=y
 
             CONFIG_PACKAGE_luci=y
+            CONFIG_PACKAGE_ua2f=y
+            CONFIG_NETFILTER_NETLINK_GLUE_CT=y
           EOF
           make defconfig
 
